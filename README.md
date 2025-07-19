@@ -1,0 +1,1 @@
+# home-assistant_marstek-smart-meter
