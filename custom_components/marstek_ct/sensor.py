@@ -8,14 +8,14 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import UnitOfPower, UnitOfEnergy, SIGNAL_STRENGTH_DECIBELS_MILLIWATT
+from homeassistant.const import UnitOfPower, SIGNAL_STRENGTH_DECIBELS_MILLIWATT
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN
 
-# --- Sensorbeschreibungen (ohne Lade-/Entladeleistung) ---
+# --- Sensorbeschreibungen (ohne Energie-Sensor) ---
 SENSOR_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(
         key="total_power",
@@ -23,13 +23,6 @@ SENSOR_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
         device_class=SensorDeviceClass.POWER,
         native_unit_of_measurement=UnitOfPower.WATT,
         state_class=SensorStateClass.MEASUREMENT,
-    ),
-    SensorEntityDescription(
-        key="ABC_chrg_nb",
-        name="Gesamt Geladene Energie",
-        device_class=SensorDeviceClass.ENERGY,
-        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR, 
-        state_class=SensorStateClass.TOTAL_INCREASING,
     ),
     SensorEntityDescription(
         key="wifi_rssi",
