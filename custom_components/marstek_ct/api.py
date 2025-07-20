@@ -47,11 +47,11 @@ class MarstekCtApi:
             return {"error": "Invalid ASCII encoding"}
 
         fields = message.split('|')[1:]
-        # Gekürzte Liste der Labels ohne Lade-/Entladeleistung
+        # Gekürzte Liste der Labels ohne Energiewerte
         labels = [
             "meter_dev_type", "meter_mac_code", "hhm_dev_type", "hhm_mac_code",
             "A_phase_power", "B_phase_power", "C_phase_power", "total_power",
-            "A_chrg_nb", "B_chrg_nb", "C_chrg_nb", "ABC_chrg_nb", "wifi_rssi",
+            "wifi_rssi",
             "info_idx"
         ]
         parsed = {}
