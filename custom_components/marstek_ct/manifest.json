@@ -2,9 +2,9 @@
   "domain": "marstek_ct",
   "name": "Marstek CT Smart Meter",
   "config_flow": true,
-  "documentation": "https://github.com/rweijnen/marstek-venus-e-firmware-notes/",
+  "documentation": "https://github.com/d-shmt/hass_marstek-smart-meter",
   "iot_class": "local_polling",
-  "issue_tracker": "https://github.com/rweijnen/marstek-venus-e-firmware-notes/issues",
+  "issue_tracker": "https://github.com/d-shmt/hass_marstek-smart-meter",
   "version": "1.0.0",
   "codeowners": [],
   "requirements": []
