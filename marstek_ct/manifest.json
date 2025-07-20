@@ -1,0 +1,11 @@
+{
+  "domain": "marstek_ct",
+  "name": "Marstek CT002 Smart Meter",
+  "config_flow": true,
+  "documentation": "https://github.com/rweijnen/marstek-venus-e-firmware-notes/",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/rweijnen/marstek-venus-e-firmware-notes/issues",
+  "version": "1.0.0",
+  "codeowners": [],
+  "requirements": []
+}
