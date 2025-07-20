@@ -20,7 +20,15 @@ Diese Integration bindet Marstek CT Smart Meter (z.B. CT002/CT003) direkt in Hom
 
 ### HACS
 
-Diese Integration ist derzeit nicht im HACS-Standard-Repository.
+Klicke in deinem Home Assistant in der Seitenleiste auf HACS und gehe dann zum Bereich Integrationen.
+Klicke auf die drei Punkte oben rechts und wähle Benutzerdefinierte Repositories.
+Füge im Dialogfeld unten die folgenden Daten ein:
+Repository 🔗: https://github.com/d-shmt/hass_marstek-smart-meter
+Kategorie ⚙️: Integration
+Klicke auf HINZUFÜGEN und schließe das Dialogfeld.
+Deine neue Integration "Marstek CT Meter" erscheint jetzt in der HACS-Liste. Klicke darauf und dann auf HERUNTERLADEN.
+
+Warte, bis der Download abgeschlossen ist und starte Home Assistant neu, wenn du dazu aufgefordert wirst.
 
 ## Konfiguration
 
