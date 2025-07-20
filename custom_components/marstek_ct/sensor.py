@@ -15,7 +15,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN
 
-# --- Sensorbeschreibungen ---
+# --- Sensorbeschreibungen (ohne Lade-/Entladeleistung) ---
 SENSOR_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(
         key="total_power",
@@ -25,24 +25,10 @@ SENSOR_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
-        key="ABC_chrg_power",
-        name="Ladeleistung",
-        device_class=SensorDeviceClass.POWER,
-        native_unit_of_measurement=UnitOfPower.WATT,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    SensorEntityDescription(
-        key="ABC_dchrg_power",
-        name="Entladeleistung",
-        device_class=SensorDeviceClass.POWER,
-        native_unit_of_measurement=UnitOfPower.WATT,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    SensorEntityDescription(
         key="ABC_chrg_nb",
         name="Gesamt Geladene Energie",
         device_class=SensorDeviceClass.ENERGY,
-        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR, # Annahme: Wert ist bereits in kWh
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR, 
         state_class=SensorStateClass.TOTAL_INCREASING,
     ),
     SensorEntityDescription(
