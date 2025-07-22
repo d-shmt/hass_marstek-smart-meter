@@ -36,21 +36,27 @@ This is an independent, community-developed integration and is not officially af
 
 The recommended way to install this integration is through the **Home Assistant Community Store (HACS)**.
 
-1.  **Add Custom Repository in HACS:**
-    * In Home Assistant, navigate to `HACS` > `Integrations`.
-    * Click the three dots (⋮) in the top right corner and select `Custom repositories`.
-    * In the dialog, enter the following:
-        * **Repository 🔗:** `https://github.com/d-shmt/hass_marstek-smart-meter`
-        * **Category ⚙️:** `Integration`
-    * Click **ADD**.
+### 1. Add as a Custom Repository in HACS
 
-2.  **Install the Integration:**
-    * The "Marstek CT Meter" integration will now appear in your HACS list.
-    * Click on it and then click **DOWNLOAD**.
+* In Home Assistant, navigate to **HACS** > **Integrations**.
+* Click the three dots (⋮) in the top right corner and select **Custom repositories**.
+* Paste the following URL into the field for the repository and select the category **Integration**:
 
-3.  **Restart Home Assistant:**
-    * After the download is complete, you will be prompted to restart Home Assistant.
+    ```
+    [https://github.com/d-shmt/hass_marstek-smart-meter](https://github.com/d-shmt/hass_marstek-smart-meter)
+    ```
 
+* Click **ADD**.
+
+### 2. Install the Integration
+
+* The "Marstek CT Meter" integration will now appear in your HACS list.
+* Click on it and then click **DOWNLOAD**.
+
+### 3. Restart Home Assistant
+
+* After the download is complete, you will be prompted to restart Home Assistant.
+* 
 ---
 
 ## 🛠️ Configuration
