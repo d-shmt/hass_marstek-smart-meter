@@ -27,6 +27,12 @@ This integration brings your Marstek CT Meter into Home Assistant with a focus o
 
 ---
 
+## ⚠️ Disclaimer
+
+This is an independent, community-developed integration and is not officially affiliated with or endorsed by **Marstek** or **Hame**. It was created based on publicly available information and community research. Use at your own risk.
+
+---
+
 ## 📋 Prerequisites
 
 Before you can install and configure this integration, please ensure you have the following:
@@ -42,12 +48,6 @@ Before you can install and configure this integration, please ensure you have th
 * **Information:**
     * The local IP Address of your CT meter.
     * The **Battery MAC** and **CT Meter MAC** addresses. You can find these in the official Marstek mobile app under "Device Management".
-
----
-
-## ⚠️ Disclaimer
-
-This is an independent, community-developed integration and is not officially affiliated with or endorsed by **Marstek** or **Hame**. It was created based on publicly available information and community research. Use at your own risk.
 
 ---
 
