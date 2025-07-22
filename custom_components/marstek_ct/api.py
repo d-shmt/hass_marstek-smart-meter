@@ -55,7 +55,8 @@ class MarstekCtApi:
                 parsed[label] = int(val)
             except (ValueError, TypeError):
                 parsed[label] = val
-
+        
+        # NOTE: Die fehlerhafte RSSI-Logik ist hier noch drin, wird aber später korrigiert.
         if "wifi_rssi" in parsed and parsed["wifi_rssi"] is not None:
             try:
                 rssi_val = int(parsed["wifi_rssi"])
@@ -63,23 +64,26 @@ class MarstekCtApi:
                     parsed["wifi_rssi"] = -rssi_val
             except (ValueError, TypeError):
                 pass
-
+        
         if "A_phase_power" in parsed and parsed["A_phase_power"] is not None:
             try:
                 parsed["A_phase_power"] = int(parsed["A_phase_power"]) * -1
             except (ValueError, TypeError):
                 pass
-
+        
         return parsed
 
     def fetch_data(self):
         """Fetch data from the meter. This is a blocking call."""
-        # HIER WAR DER FEHLER: A_INET wurde zu AF_INET korrigiert
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.settimeout(self._timeout)
         try:
             sock.sendto(self._payload, (self._host, self._port))
             response, _ = sock.recvfrom(1024)
+
+            # === HIER IST DIE WICHTIGE DIAGNOSE-ZEILE ===
+            _LOGGER.debug("Raw UDP response received (hex): %s", response.hex())
+
             return self._decode_response(response)
         except socket.timeout:
             return {"error": "Timeout - No response from meter"}
@@ -87,7 +91,7 @@ class MarstekCtApi:
             return {"error": f"An unexpected error occurred: {str(e)}"}
         finally:
             sock.close()
-
+            
     def test_connection(self):
         """A simple blocking call to test connectivity."""
         return self.fetch_data()
