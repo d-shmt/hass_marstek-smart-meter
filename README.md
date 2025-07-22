@@ -34,29 +34,33 @@ This is an independent, community-developed integration and is not officially af
 
 ## 🚀 Installation
 
-The recommended way to install this integration is through the **Home Assistant Community Store (HACS)**.
+Click the buttons below to add this integration to your Home Assistant instance.
 
-### 1. Add as a Custom Repository in HACS
+### Step 1: Add Repository to HACS
 
-* In Home Assistant, navigate to **HACS** > **Integrations**.
-* Click the three dots (⋮) in the top right corner and select **Custom repositories**.
-* Paste the following URL into the field for the repository and select the category **Integration**:
+[![Open your Home Assistant instance and add a custom repository][hacs-badge]][hacs-link]
 
-    ```
-    [https://github.com/d-shmt/hass_marstek-smart-meter](https://github.com/d-shmt/hass_marstek-smart-meter)
-    ```
+### Step 2: Install the Integration via HACS
 
-* Click **ADD**.
+After adding the repository, you need to install the integration.
 
-### 2. Install the Integration
+1.  Go to **HACS** > **Integrations**.
+2.  Search for **"Marstek CT Meter"** and click on it.
+3.  Click the **DOWNLOAD** button and wait for the installation to complete.
+4.  **Restart Home Assistant** when prompted.
 
-* The "Marstek CT Meter" integration will now appear in your HACS list.
-* Click on it and then click **DOWNLOAD**.
+### Step 3: Configure the Integration
 
-### 3. Restart Home Assistant
+After restarting, you can add and configure the integration.
 
-* After the download is complete, you will be prompted to restart Home Assistant.
-* 
+[![Open your Home Assistant instance and start setting up a new integration.][config-badge]][config-link]
+
+---
+[hacs-badge]: https://my.home-assistant.io/badges/hacs_repository.svg
+[hacs-link]: https://my.home-assistant.io/redirect/hacs_repository/?owner=d-shmt&repository=hass_marstek-smart-meter&category=integration
+[config-badge]: https://my.home-assistant.io/badges/config_flow_start.svg
+[config-link]: https://my.home-assistant.io/redirect/config_flow_start/?domain=marstek_ct
+
 ---
 
 ## 🛠️ Configuration
