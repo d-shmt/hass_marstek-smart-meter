@@ -1,55 +1,82 @@
-# Marstek CT Meter Integration für Home Assistant
+# Marstek CT Meter - Home Assistant Integration
 
-Diese Integration bindet Marstek CT Smart Meter (z.B. CT002/CT003) direkt in Home Assistant ein und ermöglicht die Konfiguration über die Benutzeroberfläche. Sie nutzt eine lokale Polling-Methode, um Daten direkt vom Gerät abzurufen, ohne auf eine Cloud angewiesen zu sein.
+<p align="center">
+  <img src="https://raw.githubusercontent.com/d-shmt/hass_marstek-smart-meter/main/custom_components/marstek_ct/logo.png" width="150">
+</p>
 
-## Features
+<p align="center">
+  A modern, local-polling integration to connect your Marstek CT Smart Meter (CT002/CT003) with Home Assistant.
+</p>
 
-- **Lokale Datenabfrage:** Ruft Daten per UDP direkt von deinem CT-Meter ab.
-- **UI-Konfiguration:** Einfaches Hinzufügen und Konfigurieren über die Home Assistant-Benutzeroberfläche. Kein Bearbeiten von YAML für die Zugangsdaten nötig.
-- **Automatische Geräteerstellung:** Legt automatisch ein Gerät in Home Assistant an und ordnet alle Sensoren diesem Gerät zu.
-- **Vielfältige Sensoren:** Erstellt Sensoren für Gesamtleistung, Lade-/Entladeleistung, Phasen-Details, Energie und WLAN-Signalstärke.
+<p align="center">
+  <a href="https://github.com/d-shmt/hass_marstek-smart-meter/releases"><img src="https://img.shields.io/github/v/release/d-shmt/hass_marstek-smart-meter?style=for-the-badge&color=blue" alt="Latest Release"></a>
+  <a href="https://github.com/d-shmt/hass_marstek-smart-meter/issues"><img src="https://img.shields.io/github/issues/d-shmt/hass_marstek-smart-meter?style=for-the-badge&color=orange" alt="Open Issues"></a>
+</p>
 
-## Installation
+---
 
-### Manuelle Installation
+## 🌟 Features
 
-1.  Erstelle im `config`-Verzeichnis deines Home Assistant ein Verzeichnis `custom_components`, falls es nicht existiert.
-2.  Erstelle darin einen Ordner namens `marstek_ct`. Der vollständige Pfad lautet dann `/config/custom_components/marstek_ct/`.
-3.  Kopiere alle `.py`- und `.json`-Dateien dieser Integration in den `marstek_ct`-Ordner.
-4.  Starte Home Assistant neu.
+This integration brings your Marstek CT Meter into Home Assistant with a focus on ease of use and local control.
 
-### HACS
+* **💻 UI Configuration:** No YAML needed for setup! Add and configure your meter directly through the Home Assistant user interface.
+* **📡 Local Polling:** All data is fetched directly from your device via UDP on your local network. No cloud connection is required.
+* **🏠 Automatic Device & Entities:** Creates a device in Home Assistant and automatically adds all relevant sensors.
+* **📊 Key Sensors:** Provides sensors for Total Power, Phase A/B/C Power, and WLAN Signal Strength (RSSI).
+* **🌐 Multi-Language Support:** The setup process and sensor names will automatically use German if your Home Assistant is set to German, otherwise it defaults to English.
 
-1.  Klicke in deinem Home Assistant in der Seitenleiste auf HACS und gehe dann zum Bereich Integrationen.
-2.  Klicke auf die drei Punkte oben rechts und wähle Benutzerdefinierte Repositories.
-3.  Füge im Dialogfeld unten die folgenden Daten ein:
+---
 
-      - Repository 🔗: https://github.com/d-shmt/hass_marstek-smart-meter
-        
-      - Kategorie ⚙️: Integration  
-5.  Klicke auf HINZUFÜGEN und schließe das Dialogfeld.
-6.  Deine neue Integration "Marstek CT Meter" erscheint jetzt in der HACS-Liste. Klicke darauf und dann auf HERUNTERLADEN.
+## ⚠️ Disclaimer
 
-Warte, bis der Download abgeschlossen ist und starte Home Assistant neu, wenn du dazu aufgefordert wirst.
+This is an independent, community-developed integration and is not officially affiliated with or endorsed by **Marstek** or **Hame**. It was created based on publicly available information and community research. Use at your own risk.
 
-## Konfiguration
+---
 
-1.  Gehe in Home Assistant zu **Einstellungen > Geräte & Dienste**.
-2.  Klicke unten rechts auf **+ INTEGRATION HINZUFÜGEN**.
-3.  Suche nach **"Marstek CT Meter"** und wähle die Integration aus.
-4.  Gib die IP-Adresse und die MAC-Adressen deines Geräts ein, wie im Dialogfeld beschrieben. Die Daten findest du in deiner Marstek-App.
+## 🚀 Installation
 
-## Sensoren
+The recommended way to install this integration is through the **Home Assistant Community Store (HACS)**.
 
-Die Integration erstellt unter anderem die folgenden Sensoren:
+1.  **Add Custom Repository in HACS:**
+    * In Home Assistant, navigate to `HACS` > `Integrations`.
+    * Click the three dots (⋮) in the top right corner and select `Custom repositories`.
+    * In the dialog, enter the following:
+        * **Repository 🔗:** `https://github.com/d-shmt/hass_marstek-smart-meter`
+        * **Category ⚙️:** `Integration`
+    * Click **ADD**.
 
-- Gesamtleistung (W)
-- Ladeleistung (W)
-- Entladeleistung (W)
-- Gesamt geladene Energie (kWh)
-- Leistung der Phasen A, B, C (W)
-- WLAN RSSI (dBm)
+2.  **Install the Integration:**
+    * The "Marstek CT Meter" integration will now appear in your HACS list.
+    * Click on it and then click **DOWNLOAD**.
 
-## Danksagung
+3.  **Restart Home Assistant:**
+    * After the download is complete, you will be prompted to restart Home Assistant.
 
-Diese Integration basiert auf der Analyse und dem Python-Skript von R. Weijnen, zu finden unter [marstek-venus-e-firmware-notes](https://github.com/rweijnen/marstek-venus-e-firmware-notes/).
+---
+
+## 🛠️ Configuration
+
+Once installed, you can add your meter via the UI.
+
+1.  Navigate to **Settings > Devices & Services**.
+2.  Click the **+ ADD INTEGRATION** button in the bottom right.
+3.  Search for **"Marstek CT Meter"** and select it.
+4.  A configuration dialog will appear. Enter the required information:
+    * **IP Address:** The local IP address of your CT meter.
+    * **MAC Addresses:** The "Battery MAC" and "CT Meter MAC", which can be found in the Marstek mobile app.
+5.  Click **SUBMIT**.
+
+The integration will be set up, and a new device with all its sensors will be added to Home Assistant.
+
+---
+
+## 🙏 Acknowledgements
+
+This integration would not have been possible without the foundational work and protocol analysis by R. Weijnen.
+* **Original Research:** [rweijnen/marstek-venus-e-firmware-notes](https://github.com/rweijnen/marstek-venus-e-firmware-notes/)
+
+---
+
+## 💬 Feedback & Contributions
+
+If you encounter any issues or have suggestions for improvements, please [**open an issue**](https://github.com/d-shmt/hass_marstek-smart-meter/issues) on this GitHub repository. Contributions are always welcome!
