@@ -52,25 +52,15 @@ class MarstekCtApi:
         for i, label in enumerate(labels):
             val = fields[i] if i < len(fields) else None
             try:
+                # Direkte Umwandlung in eine Ganzzahl, was für alle Werte (auch negative) funktioniert
                 parsed[label] = int(val)
             except (ValueError, TypeError):
                 parsed[label] = val
-        
-        # NOTE: Die fehlerhafte RSSI-Logik ist hier noch drin, wird aber später korrigiert.
-        if "wifi_rssi" in parsed and parsed["wifi_rssi"] is not None:
-            try:
-                rssi_val = int(parsed["wifi_rssi"])
-                if rssi_val > 0:
-                    parsed["wifi_rssi"] = -rssi_val
-            except (ValueError, TypeError):
-                pass
-        
-        if "A_phase_power" in parsed and parsed["A_phase_power"] is not None:
-            try:
-                parsed["A_phase_power"] = int(parsed["A_phase_power"]) * -1
-            except (ValueError, TypeError):
-                pass
-        
+
+        # Invertiere den Wert für Phase A, falls nötig
+        if "A_phase_power" in parsed and isinstance(parsed["A_phase_power"], int):
+            parsed["A_phase_power"] *= -1
+
         return parsed
 
     def fetch_data(self):
@@ -80,18 +70,15 @@ class MarstekCtApi:
         try:
             sock.sendto(self._payload, (self._host, self._port))
             response, _ = sock.recvfrom(1024)
-
-            # === HIER IST DIE WICHTIGE DIAGNOSE-ZEILE ===
-            _LOGGER.debug("Raw UDP response received (hex): %s", response.hex())
-
             return self._decode_response(response)
         except socket.timeout:
             return {"error": "Timeout - No response from meter"}
         except Exception as e:
+            _LOGGER.warning("An unexpected error occurred: %s", str(e))
             return {"error": f"An unexpected error occurred: {str(e)}"}
         finally:
             sock.close()
-            
+
     def test_connection(self):
         """A simple blocking call to test connectivity."""
         return self.fetch_data()
