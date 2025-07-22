@@ -3,7 +3,6 @@ import socket
 import re
 import logging
 
-# Erstellt eine Instanz des Loggers
 _LOGGER = logging.getLogger(__name__)
 
 class MarstekCtApi:
@@ -21,89 +20,53 @@ class MarstekCtApi:
 
     def _build_payload(self):
         """Builds the UDP payload for the query."""
-        # Constants
         SOH, STX, ETX, SEPARATOR = 0x01, 0x02, 0x03, '|'
-        
         message_fields = [self._device_type, self._battery_mac, self._ct_type, self._ct_mac, '0', '0']
         message_bytes = (SEPARATOR + SEPARATOR.join(message_fields)).encode('ascii')
-
-        base_size = 1 + 1 + len(message_bytes) + 1 + 2  # SOH, STX, msg, ETX, checksum
+        base_size = 1 + 1 + len(message_bytes) + 1 + 2
         total_length = base_size + len(str(base_size + 2))
         if len(str(total_length)) != len(str(base_size + 2)):
              total_length = base_size + len(str(total_length))
-
         payload = bytearray([SOH, STX])
         payload.extend(str(total_length).encode('ascii'))
         payload.extend(message_bytes)
         payload.append(ETX)
-
         xor = 0
         for b in payload: xor ^= b
         payload.extend(f"{xor:02x}".encode('ascii'))
-        
         return payload
 
     def _decode_response(self, data: bytes):
         """Parses the UDP response."""
-        try:
-            message = data[4:-3].decode('ascii')
-        except UnicodeDecodeError:
-            return {"error": "Invalid ASCII encoding"}
-
-        fields = message.split('|')[1:]
-        labels = [
-            "meter_dev_type", "meter_mac_code", "hhm_dev_type", "hhm_mac_code",
-            "A_phase_power", "B_phase_power", "C_phase_power", "total_power",
-            "wifi_rssi",
-            "info_idx"
-        ]
-        parsed = {}
-        for i, label in enumerate(labels):
-            val = fields[i] if i < len(fields) else None
-            try:
-                parsed[label] = int(val)
-            except (ValueError, TypeError):
-                parsed[label] = val
-
-        if "wifi_rssi" in parsed and parsed["wifi_rssi"] is not None:
-            try:
-                rssi_val = int(parsed["wifi_rssi"])
-                if rssi_val > 0:
-                    parsed["wifi_rssi"] = -rssi_val
-            except (ValueError, TypeError):
-                pass
-        
-        return parsed
+        # Temporarily disable parsing to focus on logging
+        return {"raw_hex": data.hex()}
 
     def fetch_data(self):
         """Fetch data from the meter. This is a blocking call."""
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock = socket.socket(socket.A_INET, socket.SOCK_DGRAM)
         sock.settimeout(self._timeout)
         try:
             sock.sendto(self._payload, (self._host, self._port))
             response, _ = sock.recvfrom(1024)
-            
-            # ===================================================================
-            # NEU: Logge die unverarbeitete Antwort vom Gerät
-            # ===================================================================
-            _LOGGER.debug("Raw UDP response received (hex): %s", response.hex())
-            # ===================================================================
+
+            # WIR ERZWINGEN EINE FEHLERMELDUNG, UM DIE ROHDATEN ZU SEHEN
+            _LOGGER.error("DIAGNOSE - Raw UDP response (hex): %s", response.hex())
 
             return self._decode_response(response)
         except socket.timeout:
+            _LOGGER.error("DIAGNOSE - Timeout while waiting for UDP response.")
             return {"error": "Timeout - No response from meter"}
         except Exception as e:
+            _LOGGER.error("DIAGNOSE - An unexpected error occurred: %s", str(e))
             return {"error": f"An unexpected error occurred: {str(e)}"}
         finally:
             sock.close()
-            
+
     def test_connection(self):
         """A simple blocking call to test connectivity."""
         return self.fetch_data()
 
-
 class CannotConnect(Exception):
     """Error to indicate we cannot connect."""
-
 class InvalidAuth(Exception):
     """Error to indicate there is invalid auth."""
