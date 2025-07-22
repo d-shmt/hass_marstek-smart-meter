@@ -47,7 +47,6 @@ class MarstekCtApi:
             return {"error": "Invalid ASCII encoding"}
 
         fields = message.split('|')[1:]
-        # Gekürzte Liste der Labels ohne Energiewerte
         labels = [
             "meter_dev_type", "meter_mac_code", "hhm_dev_type", "hhm_mac_code",
             "A_phase_power", "B_phase_power", "C_phase_power", "total_power",
@@ -58,9 +57,27 @@ class MarstekCtApi:
         for i, label in enumerate(labels):
             val = fields[i] if i < len(fields) else None
             try:
+                # Versuche, den Wert in eine Ganzzahl umzuwandeln
                 parsed[label] = int(val)
             except (ValueError, TypeError):
+                # Wenn es keine Zahl ist, behalte den Originalwert (z.B. Text)
                 parsed[label] = val
+
+        # ===================================================================
+        # NEU: Spezielle Korrektur für den WLAN RSSI-Wert
+        # ===================================================================
+        if "wifi_rssi" in parsed and parsed["wifi_rssi"] is not None:
+            try:
+                rssi_val = int(parsed["wifi_rssi"])
+                # Wenn der Wert positiv ist, mache ihn negativ
+                if rssi_val > 0:
+                    parsed["wifi_rssi"] = -rssi_val
+            except (ValueError, TypeError):
+                # Falls der Wert doch kein Zahl ist, ignoriere ihn,
+                # um Fehler zu vermeiden.
+                pass
+        # ===================================================================
+
         return parsed
 
     def fetch_data(self):
