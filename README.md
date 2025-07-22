@@ -23,7 +23,6 @@ This integration brings your Marstek CT Meter into Home Assistant with a focus o
 * **📡 Local Polling:** All data is fetched directly from your device via UDP on your local network. No cloud connection is required.
 * **🏠 Automatic Device & Entities:** Creates a device in Home Assistant and automatically adds all relevant sensors.
 * **📊 Key Sensors:** Provides sensors for Total Power, Phase A/B/C Power, and WLAN Signal Strength (RSSI).
-* **🌐 Multi-Language Support:** The setup process and sensor names will automatically use German if your Home Assistant is set to German, otherwise it defaults to English.
 
 ---
 
