@@ -23,6 +23,25 @@ This integration brings your Marstek CT Meter into Home Assistant with a focus o
 * **📡 Local Polling:** All data is fetched directly from your device via UDP on your local network. No cloud connection is required.
 * **🏠 Automatic Device & Entities:** Creates a device in Home Assistant and automatically adds all relevant sensors.
 * **📊 Key Sensors:** Provides sensors for Total Power, Phase A/B/C Power, and WLAN Signal Strength (RSSI).
+* **🌐 Multi-Language Support:** The setup process and sensor names will automatically use German if your Home Assistant is set to German, otherwise it defaults to English.
+
+---
+
+## 📋 Prerequisites
+
+Before you can install and configure this integration, please ensure you have the following:
+
+* **Hardware:**
+    * A supported Marstek CT Smart Meter (e.g., CT002, CT003).
+    * A local Wi-Fi network the meter is connected to.
+
+* **Home Assistant:**
+    * A working Home Assistant instance.
+    * [HACS (Home Assistant Community Store)](https://hacs.xyz/) installed.
+
+* **Information:**
+    * The local IP Address of your CT meter.
+    * The **Battery MAC** and **CT Meter MAC** addresses. You can find these in the official Marstek mobile app under "Device Management".
 
 ---
 
@@ -60,22 +79,6 @@ After restarting, you can add and configure the integration.
 [hacs-link]: https://my.home-assistant.io/redirect/hacs_repository/?owner=d-shmt&repository=hass_marstek-smart-meter&category=integration
 [config-badge]: https://my.home-assistant.io/badges/config_flow_start.svg
 [config-link]: https://my.home-assistant.io/redirect/config_flow_start/?domain=marstek_ct
-
----
-
-## 🛠️ Configuration
-
-Once installed, you can add your meter via the UI.
-
-1.  Navigate to **Settings > Devices & Services**.
-2.  Click the **+ ADD INTEGRATION** button in the bottom right.
-3.  Search for **"Marstek CT Meter"** and select it.
-4.  A configuration dialog will appear. Enter the required information:
-    * **IP Address:** The local IP address of your CT meter.
-    * **MAC Addresses:** The "Battery MAC" and "CT Meter MAC", which can be found in the Marstek mobile app.
-5.  Click **SUBMIT**.
-
-The integration will be set up, and a new device with all its sensors will be added to Home Assistant.
 
 ---
 
