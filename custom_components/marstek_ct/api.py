@@ -1,6 +1,10 @@
 """API for Marstek CT Meter."""
 import socket
 import re
+import logging
+
+# Erstellt eine Instanz des Loggers
+_LOGGER = logging.getLogger(__name__)
 
 class MarstekCtApi:
     """API to communicate with the Marstek CT meter."""
@@ -57,27 +61,18 @@ class MarstekCtApi:
         for i, label in enumerate(labels):
             val = fields[i] if i < len(fields) else None
             try:
-                # Versuche, den Wert in eine Ganzzahl umzuwandeln
                 parsed[label] = int(val)
             except (ValueError, TypeError):
-                # Wenn es keine Zahl ist, behalte den Originalwert (z.B. Text)
                 parsed[label] = val
 
-        # ===================================================================
-        # NEU: Spezielle Korrektur für den WLAN RSSI-Wert
-        # ===================================================================
         if "wifi_rssi" in parsed and parsed["wifi_rssi"] is not None:
             try:
                 rssi_val = int(parsed["wifi_rssi"])
-                # Wenn der Wert positiv ist, mache ihn negativ
                 if rssi_val > 0:
                     parsed["wifi_rssi"] = -rssi_val
             except (ValueError, TypeError):
-                # Falls der Wert doch kein Zahl ist, ignoriere ihn,
-                # um Fehler zu vermeiden.
                 pass
-        # ===================================================================
-
+        
         return parsed
 
     def fetch_data(self):
@@ -87,6 +82,13 @@ class MarstekCtApi:
         try:
             sock.sendto(self._payload, (self._host, self._port))
             response, _ = sock.recvfrom(1024)
+            
+            # ===================================================================
+            # NEU: Logge die unverarbeitete Antwort vom Gerät
+            # ===================================================================
+            _LOGGER.debug("Raw UDP response received (hex): %s", response.hex())
+            # ===================================================================
+
             return self._decode_response(response)
         except socket.timeout:
             return {"error": "Timeout - No response from meter"}
