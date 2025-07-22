@@ -1,1 +1,25 @@
-
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "[%key:component::marstek_ct::config::step::user::title%]",
+        "description": "[%key:component::marstek_ct::config::step::user::description%]",
+        "data": {
+          "host": "[%key:component::marstek_ct::config::step::user::data::host%]",
+          "battery_mac": "[%key:component::marstek_ct::config::step::user::data::battery_mac%]",
+          "mac_address": "[%key:component::marstek_ct::config::step::user::data::mac_address%]",
+          "device_type": "[%key:component::marstek_ct::config::step::user::data::device_type%]",
+          "type": "[%key:component::marstek_ct::config::step::user::data::type%]"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "[%key:component::marstek_ct::config::error::cannot_connect%]",
+      "invalid_auth": "[%key:component::marstek_ct::config::error::invalid_auth%]",
+      "unknown": "[%key:component::marstek_ct::config::error::unknown%]"
+    },
+    "abort": {
+      "already_configured": "[%key:component::marstek_ct::config::abort::already_configured%]"
+    }
+  }
+}
