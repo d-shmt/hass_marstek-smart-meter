@@ -1,1 +1,34 @@
-
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Marstek CT Meter",
+        "description": "Please enter the connection details for your Marstek CT Meter.",
+        "data": {
+          "host": "IP Address",
+          "battery_mac": "Battery MAC Address",
+          "mac_address": "CT Meter MAC Address",
+          "device_type": "Device Type (e.g., HMG-50)",
+          "type": "CT Type"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to the meter. Check the IP address and ensure the device is online.",
+      "invalid_auth": "Invalid credentials. Check the MAC addresses.",
+      "unknown": "An unknown error occurred."
+    },
+    "abort": {
+      "already_configured": "This CT Meter is already configured."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "total_power": { "name": "Total Power" },
+      "a_phase_power": { "name": "Phase A Power" },
+      "b_phase_power": { "name": "Phase B Power" },
+      "c_phase_power": { "name": "Phase C Power" },
+      "wifi_rssi": { "name": "WLAN RSSI" }
+    }
+  }
+}
