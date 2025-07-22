@@ -38,26 +38,52 @@ class MarstekCtApi:
 
     def _decode_response(self, data: bytes):
         """Parses the UDP response."""
-        # Temporarily disable parsing to focus on logging
-        return {"raw_hex": data.hex()}
+        try:
+            message = data[4:-3].decode('ascii')
+        except UnicodeDecodeError:
+            return {"error": "Invalid ASCII encoding"}
+        fields = message.split('|')[1:]
+        labels = [
+            "meter_dev_type", "meter_mac_code", "hhm_dev_type", "hhm_mac_code",
+            "A_phase_power", "B_phase_power", "C_phase_power", "total_power",
+            "wifi_rssi", "info_idx"
+        ]
+        parsed = {}
+        for i, label in enumerate(labels):
+            val = fields[i] if i < len(fields) else None
+            try:
+                parsed[label] = int(val)
+            except (ValueError, TypeError):
+                parsed[label] = val
+
+        if "wifi_rssi" in parsed and parsed["wifi_rssi"] is not None:
+            try:
+                rssi_val = int(parsed["wifi_rssi"])
+                if rssi_val > 0:
+                    parsed["wifi_rssi"] = -rssi_val
+            except (ValueError, TypeError):
+                pass
+
+        if "A_phase_power" in parsed and parsed["A_phase_power"] is not None:
+            try:
+                parsed["A_phase_power"] = int(parsed["A_phase_power"]) * -1
+            except (ValueError, TypeError):
+                pass
+
+        return parsed
 
     def fetch_data(self):
         """Fetch data from the meter. This is a blocking call."""
-        sock = socket.socket(socket.A_INET, socket.SOCK_DGRAM)
+        # HIER WAR DER FEHLER: A_INET wurde zu AF_INET korrigiert
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.settimeout(self._timeout)
         try:
             sock.sendto(self._payload, (self._host, self._port))
             response, _ = sock.recvfrom(1024)
-
-            # WIR ERZWINGEN EINE FEHLERMELDUNG, UM DIE ROHDATEN ZU SEHEN
-            _LOGGER.error("DIAGNOSE - Raw UDP response (hex): %s", response.hex())
-
             return self._decode_response(response)
         except socket.timeout:
-            _LOGGER.error("DIAGNOSE - Timeout while waiting for UDP response.")
             return {"error": "Timeout - No response from meter"}
         except Exception as e:
-            _LOGGER.error("DIAGNOSE - An unexpected error occurred: %s", str(e))
             return {"error": f"An unexpected error occurred: {str(e)}"}
         finally:
             sock.close()
