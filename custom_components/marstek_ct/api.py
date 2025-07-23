@@ -43,8 +43,7 @@ class MarstekCtApi:
         except UnicodeDecodeError:
             return {"error": "Invalid ASCII encoding"}
         fields = message.split('|')[1:]
-
-        # KORREKTUR: Wir verwenden wieder die volle Label-Liste, um die richtige Position der Werte zu gewährleisten.
+        
         labels = [
             "meter_dev_type", "meter_mac_code", "hhm_dev_type", "hhm_mac_code",
             "A_phase_power", "B_phase_power", "C_phase_power", "total_power",
@@ -53,7 +52,7 @@ class MarstekCtApi:
             "ABC_chrg_power", "x_dchrg_power", "A_dchrg_power", "B_dchrg_power",
             "C_dchrg_power", "ABC_dchrg_power"
         ]
-
+        
         parsed = {}
         for i, label in enumerate(labels):
             val = fields[i] if i < len(fields) else None
@@ -61,11 +60,7 @@ class MarstekCtApi:
                 parsed[label] = int(val)
             except (ValueError, TypeError):
                 parsed[label] = val
-
-        # Invertiere den Wert für Phase A, falls nötig
-        if "A_phase_power" in parsed and isinstance(parsed["A_phase_power"], int):
-            parsed["A_phase_power"] *= -1
-
+        
         return parsed
 
     def fetch_data(self):
@@ -83,7 +78,7 @@ class MarstekCtApi:
             return {"error": f"An unexpected error occurred: {str(e)}"}
         finally:
             sock.close()
-
+            
     def test_connection(self):
         """A simple blocking call to test connectivity."""
         return self.fetch_data()
