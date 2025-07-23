@@ -2,7 +2,7 @@
 import logging
 import voluptuous as vol
 from homeassistant import config_entries
-from homeassistant.const import CONF_HOST, CONF_MAC
+from homeassistant.const import CONF_HOST
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import format_mac
 
@@ -11,12 +11,14 @@ from .api import MarstekCtApi, CannotConnect, InvalidAuth
 
 _LOGGER = logging.getLogger(__name__)
 
+# Angepasstes Schema mit getrennten Feldern für Gerätetyp
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required("host"): str,
         vol.Required("battery_mac"): str,
         vol.Required("ct_mac"): str,
-        vol.Required("device_type", default="HMG-50"): vol.In(["HMG-50"]),
+        vol.Required("device_type_prefix", default="HMG"): vol.In(["HMG", "HMB", "HMA", "HMK"]),
+        vol.Required("device_type_number", default="50"): str,
         vol.Required("ct_type", default="HME-4"): vol.In(["HME-4", "HME-3"]),
     }
 )
@@ -25,7 +27,7 @@ async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, any]:
     """Prüft die Benutzereingaben auf Gültigkeit."""
     api = MarstekCtApi(
         host=data["host"],
-        device_type=data["device_type"],
+        device_type=data["device_type"], # Erwartet den zusammengesetzten Wert
         battery_mac=data["battery_mac"],
         ct_mac=data["ct_mac"],
         ct_type=data["ct_type"],
@@ -48,12 +50,21 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Behandelt den ersten Schritt des Flows."""
         errors = {}
         if user_input is not None:
-            unique_id = format_mac(user_input["ct_mac"])
+            # Setze die beiden Felder zu einem einzigen 'device_type' zusammen
+            final_data = user_input.copy()
+            final_data["device_type"] = f"{user_input['device_type_prefix']}-{user_input['device_type_number']}"
+            
+            # Entferne die temporären Hilfsfelder
+            del final_data["device_type_prefix"]
+            del final_data["device_type_number"]
+
+            unique_id = format_mac(final_data["ct_mac"])
             await self.async_set_unique_id(unique_id)
             self._abort_if_unique_id_configured()
             try:
-                info = await validate_input(self.hass, user_input)
-                return self.async_create_entry(title=info["title"], data=user_input)
+                info = await validate_input(self.hass, final_data)
+                # Speichere die finalen, zusammengesetzten Daten
+                return self.async_create_entry(title=info["title"], data=final_data)
             except CannotConnect:
                 errors["base"] = "cannot_connect"
             except InvalidAuth:
