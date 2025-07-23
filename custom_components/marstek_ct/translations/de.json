@@ -3,14 +3,13 @@
     "step": {
       "user": {
         "title": "Marstek CT Meter",
-        "description": "Bitte gib die Verbindungsdetails ein. WICHTIG: Die MAC-Adressen müssen von der 'Geräteverwaltung'-Seite in der Marstek-App entnommen werden (12-stellige Hex-Zeichenfolge, z.B. `112233AABBCC`).",
+        "description": "Bitte gib die Verbindungsdetails ein. Die MAC-Adressen müssen von der 'Geräteverwaltung'-Seite in der offiziellen Marstek-App entnommen werden (12-stellige Hex-Zeichenfolge).",
         "data": {
           "host": "IP-Adresse des CT Meters",
           "battery_mac": "MAC-Adresse des Speichers",
           "ct_mac": "MAC-Adresse des CT Meters",
           "device_type": "Gerätetyp",
-          "ct_type": "CT-Typ",
-          "invert_phase_a": "Leistung von Phase A invertieren"
+          "ct_type": "CT-Typ"
         }
       }
     },
