@@ -3,12 +3,13 @@
     "step": {
       "user": {
         "title": "Marstek CT Meter",
-        "description": "Bitte gib die Verbindungsdetails ein. WICHTIG: Die MAC-Adressen müssen die 12-stelligen Hex-Zeichenfolgen (z.B. `112233AABBCC`) von der 'Geräteverwaltung'-Seite in der offiziellen Marstek-App sein, NICHT die Netzwerk-MAC-Adresse.",
+        "description": "Bitte gib die Verbindungsdetails ein. Die MAC-Adressen müssen von der 'Geräteverwaltung'-Seite in der Marstek-App entnommen werden (12-stellige Hex-Zeichenfolge).",
         "data": {
           "host": "IP-Adresse des CT Meters",
           "battery_mac": "MAC-Adresse des Speichers",
           "ct_mac": "MAC-Adresse des CT Meters",
-          "device_type": "Gerätetyp",
+          "device_type_prefix": "Speicher-Typ",
+          "device_type_number": "Speicher-Nummer",
           "ct_type": "CT-Typ"
         }
       }
@@ -57,9 +58,12 @@
         "HME-3": "HME-3 (CT003)"
       }
     },
-    "device_type": {
+    "device_type_prefix": {
       "options": {
-        "HMG-50": "HMG-50 (Venus E 5.12)"
+        "HMG": "HMG (Marstek Venus)",
+        "HMB": "HMB (B2500 storage v1)",
+        "HMA": "HMA (B2500 storage v2)",
+        "HMK": "HMK (Greensolar storage v3)"
       }
     }
   }
