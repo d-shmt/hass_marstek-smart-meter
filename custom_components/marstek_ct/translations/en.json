@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Marstek CT Meter",
-        "description": "Please enter the connection details. The MAC addresses must be the 12-character hex strings from the 'Device Management' page in the official Marstek mobile app.",
+        "description": "Please enter the connection details. IMPORTANT: The MAC addresses must be the 12-character hex strings (e.g., `112233AABBCC`) from the 'Device Management' page in the official Marstek mobile app, NOT the network MAC address.",
         "data": {
           "host": "IP Address of the CT Meter",
           "battery_mac": "MAC Address of the Battery",
@@ -28,9 +28,26 @@
       "a_phase_power": { "name": "Phase A Power" },
       "b_phase_power": { "name": "Phase B Power" },
       "c_phase_power": { "name": "Phase C Power" },
-      "wifi_rssi": { "name": "WIFI RSSI" },
-      "charge_power": { "name": "Charge Power" },
-      "discharge_power": { "name": "Discharge Power" }
+      "wifi_rssi": { "name": "WLAN RSSI" },
+      "meter_dev_type": { "name": "Meter Device Type" },
+      "meter_mac_code": { "name": "Meter MAC" },
+      "hhm_dev_type": { "name": "HHM Device Type" },
+      "hhm_mac_code": { "name": "HHM MAC" },
+      "info_idx": { "name": "Info Index" },
+      "a_chrg_nb": { "name": "Phase A Charged Energy" },
+      "b_chrg_nb": { "name": "Phase B Charged Energy" },
+      "c_chrg_nb": { "name": "Phase C Charged Energy" },
+      "abc_chrg_nb": { "name": "Total Charged Energy" },
+      "x_chrg_power": { "name": "Unassigned Charge Power" },
+      "a_chrg_power": { "name": "Phase A Charge Power" },
+      "b_chrg_power": { "name": "Phase B Charge Power" },
+      "c_chrg_power": { "name": "Phase C Charge Power" },
+      "abc_chrg_power": { "name": "Total Charge Power" },
+      "x_dchrg_power": { "name": "Unassigned Discharge Power" },
+      "a_dchrg_power": { "name": "Phase A Discharge Power" },
+      "b_dchrg_power": { "name": "Phase B Discharge Power" },
+      "c_dchrg_power": { "name": "Phase C Discharge Power" },
+      "abc_dchrg_power": { "name": "Total Discharge Power" }
     }
   },
   "selector": {
