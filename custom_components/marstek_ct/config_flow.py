@@ -2,7 +2,7 @@
 import logging
 import voluptuous as vol
 from homeassistant import config_entries
-from homeassistant.const import CONF_HOST, CONF_MAC, CONF_TYPE
+from homeassistant.const import CONF_HOST, CONF_MAC
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import format_mac
 
@@ -11,14 +11,27 @@ from .api import MarstekCtApi, CannotConnect, InvalidAuth
 
 _LOGGER = logging.getLogger(__name__)
 
+# Schema für die Eingabemaske in der UI, jetzt mit neuen Namen und Auswahlboxen
+STEP_USER_DATA_SCHEMA = vol.Schema(
+    {
+        vol.Required("host"): str,
+        vol.Required("battery_mac"): str,
+        vol.Required("ct_mac"): str,
+        vol.Required("device_type", default="HMG-50"): vol.In(["HMG-50"]), # Platzhalter, kann erweitert werden
+        vol.Required("ct_type", default="HME-4"): vol.In(["HME-4", "HME-3"]),
+        vol.Optional("invert_phase_a", default=True): bool,
+    }
+)
+
 async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, any]:
     """Prüft die Benutzereingaben auf Gültigkeit."""
     api = MarstekCtApi(
-        host=data[CONF_HOST],
+        host=data["host"],
         device_type=data["device_type"],
         battery_mac=data["battery_mac"],
-        ct_mac=data[CONF_MAC],
-        ct_type=data[CONF_TYPE],
+        ct_mac=data["ct_mac"],
+        ct_type=data["ct_type"],
+        invert_phase_a=data["invert_phase_a"],
     )
     result = await hass.async_add_executor_job(api.test_connection)
     if "error" in result:
@@ -27,7 +40,7 @@ async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, any]:
             raise CannotConnect(error_msg)
         else:
             raise InvalidAuth(error_msg)
-    return {"title": f"Marstek CT {data[CONF_HOST]}"}
+    return {"title": f"Marstek CT {data['host']}"}
 
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -38,7 +51,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Behandelt den ersten Schritt des Flows."""
         errors = {}
         if user_input is not None:
-            unique_id = format_mac(user_input[CONF_MAC])
+            unique_id = format_mac(user_input["ct_mac"])
             await self.async_set_unique_id(unique_id)
             self._abort_if_unique_id_configured()
             try:
@@ -51,16 +64,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             except Exception:
                 _LOGGER.exception("Unerwarteter Fehler bei der Validierung")
                 errors["base"] = "unknown"
-
-        # Home Assistant generiert das Formular jetzt automatisch aus den Übersetzungsdateien
+        
         return self.async_show_form(
-            step_id="user",
-            data_schema=vol.Schema({
-                vol.Required(CONF_HOST): str,
-                vol.Required("battery_mac"): str,
-                vol.Required(CONF_MAC): str,
-                vol.Required("device_type", default="HMG-50"): str,
-                vol.Required(CONF_TYPE, default="HME-4"): vol.In(["HME-4", "HME-3"]),
-            }),
-            errors=errors
+            step_id="user", data_schema=STEP_USER_DATA_SCHEMA, errors=errors
         )
