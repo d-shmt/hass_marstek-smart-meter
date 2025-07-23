@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Marstek CT Meter",
-        "description": "Bitte gib die Verbindungsdetails ein. WICHTIG: Die MAC-Adressen müssen die 12-stelligen Hex-Zeichenfolgen (z.B. `acd929891631`) von der 'Geräteverwaltung'-Seite in der offiziellen Marstek-App sein, NICHT die Netzwerk-MAC-Adresse.",
+        "description": "Bitte gib die Verbindungsdetails ein. WICHTIG: Die MAC-Adressen müssen die 12-stelligen Hex-Zeichenfolgen (z.B. `112233AABBCC`) von der 'Geräteverwaltung'-Seite in der offiziellen Marstek-App sein, NICHT die Netzwerk-MAC-Adresse.",
         "data": {
           "host": "IP-Adresse",
           "battery_mac": "Batterie MAC-Adresse",
