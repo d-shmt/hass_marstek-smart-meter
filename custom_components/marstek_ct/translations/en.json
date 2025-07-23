@@ -28,7 +28,7 @@
       "a_phase_power": { "name": "Phase A Power" },
       "b_phase_power": { "name": "Phase B Power" },
       "c_phase_power": { "name": "Phase C Power" },
-      "wifi_rssi": { "name": "WLAN RSSI" },
+      "wifi_rssi": { "name": "WIFI RSSI" },
       "charge_power": { "name": "Charge Power" },
       "discharge_power": { "name": "Discharge Power" }
     }
