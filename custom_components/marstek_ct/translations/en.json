@@ -3,14 +3,13 @@
     "step": {
       "user": {
         "title": "Marstek CT Meter",
-        "description": "Please enter the connection details. IMPORTANT: The MAC addresses must be the 12-character hex strings (e.g., `112233AABBCC`) from the 'Device Management' page in the Marstek mobile app.",
+        "description": "Please enter the connection details. The MAC addresses must be the 12-character hex strings from the 'Device Management' page in the official Marstek mobile app.",
         "data": {
           "host": "IP Address of the CT Meter",
           "battery_mac": "MAC Address of the Battery",
           "ct_mac": "MAC Address of the CT Meter",
           "device_type": "Device Type",
-          "ct_type": "CT Type",
-          "invert_phase_a": "Invert Phase A Power"
+          "ct_type": "CT Type"
         }
       }
     },
