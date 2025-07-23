@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  A modern, local-polling integration to connect your Marstek CT Smart Meter (CT002/CT003) with Home Assistant.
+  A modern, local-polling integration to connect your Marstek CT Smart Meter with Home Assistant.
 </p>
 
 <p align="center">
@@ -38,16 +38,22 @@ This is an independent, community-developed integration and is not officially af
 Before you can install and configure this integration, please ensure you have the following:
 
 * **Hardware:**
-    * A supported Marstek CT Smart Meter (e.g., CT002, CT003).
+    * A supported Marstek CT Smart Meter (**tested with CT002 and CT003**).
     * A local Wi-Fi network the meter is connected to.
 
 * **Home Assistant:**
     * A working Home Assistant instance.
     * [HACS (Home Assistant Community Store)](https://hacs.xyz/) installed.
 
-* **Information:**
-    * The local IP Address of your CT meter.
-    * The **Battery MAC** and **CT Meter MAC** addresses. You can find these in the official Marstek mobile app under "Device Management".
+* **Required Information:**
+    * **IP Address:** The local IP Address of your CT meter.
+    * **Battery & CT Meter MAC:** These are special 12-character MAC addresses found within the official Marstek mobile app under "Device Management".
+        * **Format:** A 12-character hexadecimal string without colons or dashes.
+        * **Important:** These are **NOT** the network MAC addresses that your router sees.
+    * **Device & CT Types:** These are typically pre-filled correctly.
+        * **Device Type `HMG-50`:** Corresponds to the **Marstek Venus E 5.12**.
+        * **CT Type `HME-4`:** Corresponds to the **CT002**.
+        * **CT Type `HME-3`:** Corresponds to the **CT003**.
 
 ---
 
