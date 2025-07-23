@@ -3,23 +3,24 @@
     "step": {
       "user": {
         "title": "Marstek CT Meter",
-        "description": "Please enter the connection details. IMPORTANT: The MAC addresses must be the 12-character hex strings (e.g., `112233AABBCC`) from the 'Device Management' page in the official Marstek mobile app, NOT the network MAC address.",
+        "description": "Please enter the connection details. IMPORTANT: The MAC addresses must be the 12-character hex strings (e.g., `112233AABBCC`) from the 'Device Management' page in the Marstek mobile app.",
         "data": {
-          "host": "IP Address",
-          "battery_mac": "Battery MAC Address",
-          "mac_address": "CT Meter MAC Address",
-          "device_type": "Device Type (e.g., HMG-50 for Venus E)",
-          "type": "CT Type (e.g., HME-4 for CT002)"
+          "host": "IP Address of the CT Meter",
+          "battery_mac": "MAC Address of the Battery",
+          "ct_mac": "MAC Address of the CT Meter",
+          "device_type": "Device Type",
+          "ct_type": "CT Type",
+          "invert_phase_a": "Invert Phase A Power"
         }
       }
     },
     "error": {
-      "cannot_connect": "Failed to connect to the meter. Check the IP address and ensure the device is online.",
-      "invalid_auth": "Invalid credentials. Check that the MAC addresses are correct and in the right format.",
+      "cannot_connect": "Failed to connect to the meter. Check the IP address.",
+      "invalid_auth": "Invalid credentials. Check the MAC addresses.",
       "unknown": "An unknown error occurred."
     },
     "abort": {
-      "already_configured": "This CT Meter is already configured."
+      "already_configured": "This device is already configured."
     }
   },
   "entity": {
@@ -28,7 +29,22 @@
       "a_phase_power": { "name": "Phase A Power" },
       "b_phase_power": { "name": "Phase B Power" },
       "c_phase_power": { "name": "Phase C Power" },
-      "wifi_rssi": { "name": "WLAN RSSI" }
+      "wifi_rssi": { "name": "WLAN RSSI" },
+      "charge_power": { "name": "Charge Power" },
+      "discharge_power": { "name": "Discharge Power" }
+    }
+  },
+  "selector": {
+    "ct_type": {
+      "options": {
+        "HME-4": "HME-4 (CT002)",
+        "HME-3": "HME-3 (CT003)"
+      }
+    },
+    "device_type": {
+      "options": {
+        "HMG-50": "HMG-50 (Venus E 5.12)"
+      }
     }
   }
 }
