@@ -3,23 +3,24 @@
     "step": {
       "user": {
         "title": "Marstek CT Meter",
-        "description": "Bitte gib die Verbindungsdetails ein. WICHTIG: Die MAC-Adressen müssen die 12-stelligen Hex-Zeichenfolgen (z.B. `112233AABBCC`) von der 'Geräteverwaltung'-Seite in der offiziellen Marstek-App sein, NICHT die Netzwerk-MAC-Adresse.",
+        "description": "Bitte gib die Verbindungsdetails ein. WICHTIG: Die MAC-Adressen müssen von der 'Geräteverwaltung'-Seite in der Marstek-App entnommen werden (12-stellige Hex-Zeichenfolge, z.B. `112233AABBCC`).",
         "data": {
-          "host": "IP-Adresse",
-          "battery_mac": "Batterie MAC-Adresse",
-          "mac_address": "CT Meter MAC-Adresse",
-          "device_type": "Gerätetyp (z.B. HMG-50 für Venus E)",
-          "type": "CT-Typ (z.B. HME-4 für CT002)"
+          "host": "IP-Adresse des CT Meters",
+          "battery_mac": "MAC-Adresse des Speichers",
+          "ct_mac": "MAC-Adresse des CT Meters",
+          "device_type": "Gerätetyp",
+          "ct_type": "CT-Typ",
+          "invert_phase_a": "Leistung von Phase A invertieren"
         }
       }
     },
     "error": {
-      "cannot_connect": "Verbindung zum Meter fehlgeschlagen. Prüfe die IP-Adresse und ob das Gerät online ist.",
-      "invalid_auth": "Ungültige Zugangsdaten. Prüfe, ob die MAC-Adressen korrekt und im richtigen Format sind.",
+      "cannot_connect": "Verbindung zum Meter fehlgeschlagen. Prüfe die IP-Adresse.",
+      "invalid_auth": "Ungültige Zugangsdaten. Prüfe die MAC-Adressen.",
       "unknown": "Ein unbekannter Fehler ist aufgetreten."
     },
     "abort": {
-      "already_configured": "Dieses CT Meter ist bereits konfiguriert."
+      "already_configured": "Dieses Gerät ist bereits konfiguriert."
     }
   },
   "entity": {
@@ -28,7 +29,22 @@
       "a_phase_power": { "name": "Phase A Leistung" },
       "b_phase_power": { "name": "Phase B Leistung" },
       "c_phase_power": { "name": "Phase C Leistung" },
-      "wifi_rssi": { "name": "WLAN RSSI" }
+      "wifi_rssi": { "name": "WLAN RSSI" },
+      "charge_power": { "name": "Ladeleistung" },
+      "discharge_power": { "name": "Entladeleistung" }
+    }
+  },
+  "selector": {
+    "ct_type": {
+      "options": {
+        "HME-4": "HME-4 (CT002)",
+        "HME-3": "HME-3 (CT003)"
+      }
+    },
+    "device_type": {
+      "options": {
+        "HMG-50": "HMG-50 (Venus E 5.12)"
+      }
     }
   }
 }
