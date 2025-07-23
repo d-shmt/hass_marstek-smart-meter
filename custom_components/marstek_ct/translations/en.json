@@ -3,12 +3,13 @@
     "step": {
       "user": {
         "title": "Marstek CT Meter",
-        "description": "Please enter the connection details. IMPORTANT: The MAC addresses must be the 12-character hex strings (e.g., `112233AABBCC`) from the 'Device Management' page in the official Marstek mobile app, NOT the network MAC address.",
+        "description": "Please enter the connection details. The MAC addresses must be the 12-character hex strings from the 'Device Management' page in the official Marstek mobile app.",
         "data": {
           "host": "IP Address of the CT Meter",
           "battery_mac": "MAC Address of the Battery",
           "ct_mac": "MAC Address of the CT Meter",
-          "device_type": "Device Type",
+          "device_type_prefix": "Storage Type",
+          "device_type_number": "Storage Number",
           "ct_type": "CT Type"
         }
       }
@@ -28,7 +29,7 @@
       "a_phase_power": { "name": "Phase A Power" },
       "b_phase_power": { "name": "Phase B Power" },
       "c_phase_power": { "name": "Phase C Power" },
-      "wifi_rssi": { "name": "WLAN RSSI" },
+      "wifi_rssi": { "name": "WIFI RSSI" },
       "meter_dev_type": { "name": "Meter Device Type" },
       "meter_mac_code": { "name": "Meter MAC" },
       "hhm_dev_type": { "name": "HHM Device Type" },
@@ -57,9 +58,12 @@
         "HME-3": "HME-3 (CT003)"
       }
     },
-    "device_type": {
+    "device_type_prefix": {
       "options": {
-        "HMG-50": "HMG-50 (Venus E 5.12)"
+        "HMG": "HMG (Marstek Venus)",
+        "HMB": "HMB (B2500 storage v1)",
+        "HMA": "HMA (B2500 storage v2)",
+        "HMK": "HMK (Greensolar storage v3)"
       }
     }
   }
