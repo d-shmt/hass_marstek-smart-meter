@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Marstek CT Meter",
-        "description": "Bitte gib die Verbindungsdetails ein. Die MAC-Adressen müssen von der 'Geräteverwaltung'-Seite in der offiziellen Marstek-App entnommen werden (12-stellige Hex-Zeichenfolge).",
+        "description": "Bitte gib die Verbindungsdetails ein. WICHTIG: Die MAC-Adressen müssen die 12-stelligen Hex-Zeichenfolgen (z.B. `112233AABBCC`) von der 'Geräteverwaltung'-Seite in der offiziellen Marstek-App sein, NICHT die Netzwerk-MAC-Adresse.",
         "data": {
           "host": "IP-Adresse des CT Meters",
           "battery_mac": "MAC-Adresse des Speichers",
@@ -29,8 +29,25 @@
       "b_phase_power": { "name": "Phase B Leistung" },
       "c_phase_power": { "name": "Phase C Leistung" },
       "wifi_rssi": { "name": "WLAN RSSI" },
-      "charge_power": { "name": "Ladeleistung" },
-      "discharge_power": { "name": "Entladeleistung" }
+      "meter_dev_type": { "name": "Meter Gerätetyp" },
+      "meter_mac_code": { "name": "Meter MAC" },
+      "hhm_dev_type": { "name": "HHM Gerätetyp" },
+      "hhm_mac_code": { "name": "HHM MAC" },
+      "info_idx": { "name": "Info Index" },
+      "a_chrg_nb": { "name": "Phase A Geladene Energie" },
+      "b_chrg_nb": { "name": "Phase B Geladene Energie" },
+      "c_chrg_nb": { "name": "Phase C Geladene Energie" },
+      "abc_chrg_nb": { "name": "Gesamt Geladene Energie" },
+      "x_chrg_power": { "name": "Unzugeordnete Ladeleistung" },
+      "a_chrg_power": { "name": "Phase A Ladeleistung" },
+      "b_chrg_power": { "name": "Phase B Ladeleistung" },
+      "c_chrg_power": { "name": "Phase C Ladeleistung" },
+      "abc_chrg_power": { "name": "Gesamt Ladeleistung" },
+      "x_dchrg_power": { "name": "Unzugeordnete Entladeleistung" },
+      "a_dchrg_power": { "name": "Phase A Entladeleistung" },
+      "b_dchrg_power": { "name": "Phase B Entladeleistung" },
+      "c_dchrg_power": { "name": "Phase C Entladeleistung" },
+      "abc_dchrg_power": { "name": "Gesamt Entladeleistung" }
     }
   },
   "selector": {
