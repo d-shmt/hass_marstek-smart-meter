@@ -11,15 +11,13 @@ from .api import MarstekCtApi, CannotConnect, InvalidAuth
 
 _LOGGER = logging.getLogger(__name__)
 
-# Schema für die Eingabemaske in der UI, jetzt mit neuen Namen und Auswahlboxen
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required("host"): str,
         vol.Required("battery_mac"): str,
         vol.Required("ct_mac"): str,
-        vol.Required("device_type", default="HMG-50"): vol.In(["HMG-50"]), # Platzhalter, kann erweitert werden
+        vol.Required("device_type", default="HMG-50"): vol.In(["HMG-50"]),
         vol.Required("ct_type", default="HME-4"): vol.In(["HME-4", "HME-3"]),
-        vol.Optional("invert_phase_a", default=True): bool,
     }
 )
 
@@ -31,7 +29,6 @@ async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, any]:
         battery_mac=data["battery_mac"],
         ct_mac=data["ct_mac"],
         ct_type=data["ct_type"],
-        invert_phase_a=data["invert_phase_a"],
     )
     result = await hass.async_add_executor_job(api.test_connection)
     if "error" in result:
