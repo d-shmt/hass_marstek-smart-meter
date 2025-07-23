@@ -3,19 +3,19 @@
     "step": {
       "user": {
         "title": "Marstek CT Meter",
-        "description": "Bitte gib die Verbindungsdetails für dein Marstek CT Meter ein.",
+        "description": "Bitte gib die Verbindungsdetails ein. WICHTIG: Die MAC-Adressen müssen die 12-stelligen Hex-Zeichenfolgen (z.B. `acd929891631`) von der 'Geräteverwaltung'-Seite in der offiziellen Marstek-App sein, NICHT die Netzwerk-MAC-Adresse.",
         "data": {
           "host": "IP-Adresse",
           "battery_mac": "Batterie MAC-Adresse",
           "mac_address": "CT Meter MAC-Adresse",
-          "device_type": "Gerätetyp (z.B. HMG-50)",
-          "type": "CT-Typ"
+          "device_type": "Gerätetyp (z.B. HMG-50 für Venus E)",
+          "type": "CT-Typ (z.B. HME-4 für CT002)"
         }
       }
     },
     "error": {
       "cannot_connect": "Verbindung zum Meter fehlgeschlagen. Prüfe die IP-Adresse und ob das Gerät online ist.",
-      "invalid_auth": "Ungültige Zugangsdaten. Prüfe die MAC-Adressen.",
+      "invalid_auth": "Ungültige Zugangsdaten. Prüfe, ob die MAC-Adressen korrekt und im richtigen Format sind.",
       "unknown": "Ein unbekannter Fehler ist aufgetreten."
     },
     "abort": {
