@@ -29,7 +29,7 @@
       "a_phase_power": { "name": "Phase A Power" },
       "b_phase_power": { "name": "Phase B Power" },
       "c_phase_power": { "name": "Phase C Power" },
-      "wifi_rssi": { "name": "WIFI RSSI" },
+      "wifi_rssi": { "name": "WLAN RSSI" },
       "meter_dev_type": { "name": "Meter Device Type" },
       "meter_mac_code": { "name": "Meter MAC" },
       "hhm_dev_type": { "name": "HHM Device Type" },
