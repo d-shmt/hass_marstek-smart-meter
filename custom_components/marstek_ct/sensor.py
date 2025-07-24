@@ -13,7 +13,6 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import DOMAIN
 
-# Definition aller möglichen Sensoren
 SENSOR_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
     # ========== Standardmäßig aktivierte Sensoren ==========
     SensorEntityDescription(key="total_power", translation_key="total_power", device_class=SensorDeviceClass.POWER, native_unit_of_measurement=UnitOfPower.WATT, state_class=SensorStateClass.MEASUREMENT),
@@ -23,27 +22,23 @@ SENSOR_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(key="C_phase_power", translation_key="c_phase_power", device_class=SensorDeviceClass.POWER, native_unit_of_measurement=UnitOfPower.WATT, state_class=SensorStateClass.MEASUREMENT),
     
     # ========== Standardmäßig deaktivierte Sensoren ==========
-    # Info
     SensorEntityDescription(key="meter_dev_type", translation_key="meter_dev_type", entity_registry_enabled_default=False),
     SensorEntityDescription(key="meter_mac_code", translation_key="meter_mac_code", entity_registry_enabled_default=False),
     SensorEntityDescription(key="hhm_dev_type", translation_key="hhm_dev_type", entity_registry_enabled_default=False),
     SensorEntityDescription(key="hhm_mac_code", translation_key="hhm_mac_code", entity_registry_enabled_default=False),
     SensorEntityDescription(key="info_idx", translation_key="info_idx", entity_registry_enabled_default=False),
     
-    # Energie
-    SensorEntityDescription(key="A_chrg_nb", translation_key="a_chrg_nb", device_class=SensorDeviceClass.ENERGY, native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR, state_class=SensorStateClass.TOTAL_INCREASING, entity_registry_enabled_default=False),
-    SensorEntityDescription(key="B_chrg_nb", translation_key="b_chrg_nb", device_class=SensorDeviceClass.ENERGY, native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR, state_class=SensorStateClass.TOTAL_INCREASING, entity_registry_enabled_default=False),
-    SensorEntityDescription(key="C_chrg_nb", translation_key="c_chrg_nb", device_class=SensorDeviceClass.ENERGY, native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR, state_class=SensorStateClass.TOTAL_INCREASING, entity_registry_enabled_default=False),
-    SensorEntityDescription(key="ABC_chrg_nb", translation_key="abc_chrg_nb", device_class=SensorDeviceClass.ENERGY, native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR, state_class=SensorStateClass.TOTAL_INCREASING, entity_registry_enabled_default=False),
+    # Wieder als normale Sensoren hinzugefügt (ohne Einheit/Klasse)
+    SensorEntityDescription(key="A_chrg_nb", translation_key="a_chrg_status", icon="mdi:numeric-1-box-multiple-outline", entity_registry_enabled_default=False),
+    SensorEntityDescription(key="B_chrg_nb", translation_key="b_chrg_status", icon="mdi:numeric-1-box-multiple-outline", entity_registry_enabled_default=False),
+    SensorEntityDescription(key="C_chrg_nb", translation_key="c_chrg_status", icon="mdi:numeric-1-box-multiple-outline", entity_registry_enabled_default=False),
 
-    # Ladeleistung
+    SensorEntityDescription(key="ABC_chrg_nb", translation_key="abc_chrg_nb", device_class=SensorDeviceClass.ENERGY, native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR, state_class=SensorStateClass.TOTAL_INCREASING, entity_registry_enabled_default=False),
     SensorEntityDescription(key="x_chrg_power", translation_key="x_chrg_power", device_class=SensorDeviceClass.POWER, native_unit_of_measurement=UnitOfPower.WATT, state_class=SensorStateClass.MEASUREMENT, entity_registry_enabled_default=False),
     SensorEntityDescription(key="A_chrg_power", translation_key="a_chrg_power", device_class=SensorDeviceClass.POWER, native_unit_of_measurement=UnitOfPower.WATT, state_class=SensorStateClass.MEASUREMENT, entity_registry_enabled_default=False),
     SensorEntityDescription(key="B_chrg_power", translation_key="b_chrg_power", device_class=SensorDeviceClass.POWER, native_unit_of_measurement=UnitOfPower.WATT, state_class=SensorStateClass.MEASUREMENT, entity_registry_enabled_default=False),
     SensorEntityDescription(key="C_chrg_power", translation_key="c_chrg_power", device_class=SensorDeviceClass.POWER, native_unit_of_measurement=UnitOfPower.WATT, state_class=SensorStateClass.MEASUREMENT, entity_registry_enabled_default=False),
     SensorEntityDescription(key="ABC_chrg_power", translation_key="abc_chrg_power", device_class=SensorDeviceClass.POWER, native_unit_of_measurement=UnitOfPower.WATT, state_class=SensorStateClass.MEASUREMENT, entity_registry_enabled_default=False),
-    
-    # Entladeleistung
     SensorEntityDescription(key="x_dchrg_power", translation_key="x_dchrg_power", device_class=SensorDeviceClass.POWER, native_unit_of_measurement=UnitOfPower.WATT, state_class=SensorStateClass.MEASUREMENT, entity_registry_enabled_default=False),
     SensorEntityDescription(key="A_dchrg_power", translation_key="a_dchrg_power", device_class=SensorDeviceClass.POWER, native_unit_of_measurement=UnitOfPower.WATT, state_class=SensorStateClass.MEASUREMENT, entity_registry_enabled_default=False),
     SensorEntityDescription(key="B_dchrg_power", translation_key="b_dchrg_power", device_class=SensorDeviceClass.POWER, native_unit_of_measurement=UnitOfPower.WATT, state_class=SensorStateClass.MEASUREMENT, entity_registry_enabled_default=False),
