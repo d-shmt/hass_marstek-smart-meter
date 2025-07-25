@@ -1,11 +1,11 @@
 {
   "domain": "marstek_ct",
-  "name": "Marstek CT Smart Meter",
+  "name": "Marstek CT Meter",
   "config_flow": true,
   "documentation": "https://github.com/d-shmt/hass_marstek-smart-meter",
   "iot_class": "local_polling",
-  "issue_tracker": "https://github.com/d-shmt/hass_marstek-smart-meter",
+  "issue_tracker": "https://github.com/d-shmt/hass_marstek-smart-meter/issues",
   "version": "0.0.1",
-  "codeowners": [],
+  "codeowners": ["@d-shmt"],
   "requirements": []
 }
