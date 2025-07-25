@@ -11,7 +11,6 @@ from .api import MarstekCtApi, CannotConnect, InvalidAuth
 
 _LOGGER = logging.getLogger(__name__)
 
-# Angepasstes Schema mit getrennten Feldern für Gerätetyp
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required("host"): str,
@@ -27,7 +26,7 @@ async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, any]:
     """Prüft die Benutzereingaben auf Gültigkeit."""
     api = MarstekCtApi(
         host=data["host"],
-        device_type=data["device_type"], # Erwartet den zusammengesetzten Wert
+        device_type=data["device_type"],
         battery_mac=data["battery_mac"],
         ct_mac=data["ct_mac"],
         ct_type=data["ct_type"],
@@ -50,20 +49,22 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Behandelt den ersten Schritt des Flows."""
         errors = {}
         if user_input is not None:
-            # Setze die beiden Felder zu einem einzigen 'device_type' zusammen
             final_data = user_input.copy()
             final_data["device_type"] = f"{user_input['device_type_prefix']}-{user_input['device_type_number']}"
             
-            # Entferne die temporären Hilfsfelder
             del final_data["device_type_prefix"]
             del final_data["device_type_number"]
 
-            unique_id = format_mac(final_data["ct_mac"])
+            # ===================================================================
+            # HIER IST DIE ÄNDERUNG: Die Unique ID wird aus beiden MACs gebildet
+            # ===================================================================
+            unique_id = f'{format_mac(final_data["ct_mac"])}_{format_mac(final_data["battery_mac"])}'
             await self.async_set_unique_id(unique_id)
             self._abort_if_unique_id_configured()
+            # ===================================================================
+
             try:
                 info = await validate_input(self.hass, final_data)
-                # Speichere die finalen, zusammengesetzten Daten
                 return self.async_create_entry(title=info["title"], data=final_data)
             except CannotConnect:
                 errors["base"] = "cannot_connect"
