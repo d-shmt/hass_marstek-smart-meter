@@ -4,6 +4,7 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.const import CONF_HOST, CONF_SCAN_INTERVAL
 from homeassistant.core import callback
+from homeassistant.helpers.device_registry import format_mac
 
 from .const import DOMAIN
 from .api import MarstekCtApi, CannotConnect, InvalidAuth
@@ -19,19 +20,16 @@ class MarstekCtConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Handle the initial setup step."""
         errors = {}
         if user_input is not None:
-            # Kombiniere die Eingaben für den Gerätetyp
             final_data = user_input.copy()
             final_data["device_type"] = f"{user_input['device_type_prefix']}-{user_input['device_type_number']}"
             del final_data["device_type_prefix"]
             del final_data["device_type_number"]
 
-            # Setze die kombinierte Unique ID
-            unique_id = f'{final_data["ct_mac"]}_{final_data["battery_mac"]}'
+            unique_id = f'{format_mac(final_data["ct_mac"])}_{format_mac(final_data["battery_mac"])}'
             await self.async_set_unique_id(unique_id)
             self._abort_if_unique_id_configured()
 
             try:
-                # Validiere die Eingaben
                 info = await validate_input(self.hass, final_data)
                 return self.async_create_entry(title=info["title"], data=final_data)
             except CannotConnect:
@@ -42,7 +40,6 @@ class MarstekCtConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 _LOGGER.exception("Unexpected error during validation")
                 errors["base"] = "unknown"
         
-        # Schema für die Eingabemaske
         data_schema = vol.Schema({
             vol.Required("host"): str,
             vol.Required("battery_mac"): str,
@@ -60,6 +57,7 @@ class MarstekCtConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     @callback
     def async_get_options_flow(config_entry: config_entries.ConfigEntry):
         """Get the options flow for this handler."""
+        # HIER IST DIE KORRIGIERTE ZEILE:
         return MarstekCtOptionsFlow(config_entry)
 
 
@@ -75,7 +73,6 @@ class MarstekCtOptionsFlow(config_entries.OptionsFlow):
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
 
-        # Schema für die Options-Maske
         options_schema = vol.Schema({
             vol.Required(
                 CONF_SCAN_INTERVAL,
