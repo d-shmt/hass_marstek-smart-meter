@@ -2,24 +2,19 @@
 from __future__ import annotations
 from datetime import timedelta
 import logging
-
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import Platform, CONF_SCAN_INTERVAL
+from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from .api import MarstekCtApi
 from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
-PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.BINARY_SENSOR]
-DEFAULT_SCAN_INTERVAL = 30
+# Die BINARY_SENSOR-Plattform wird hier wieder entfernt
+PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Marstek CT Meter from a config entry."""
-    
-    # Lese das Update-Intervall aus den Optionen, mit Fallback auf den Standardwert
-    scan_interval = entry.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
-
     api = MarstekCtApi(
         host=entry.data["host"],
         device_type=entry.data["device_type"],
@@ -43,21 +38,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         _LOGGER,
         name="marstek_ct_sensor",
         update_method=async_update_data,
-        update_interval=timedelta(seconds=scan_interval),
+        update_interval=timedelta(seconds=30),
     )
 
     await coordinator.async_config_entry_first_refresh()
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-    
-    # Füge einen Listener hinzu, der auf Options-Änderungen reagiert
-    entry.async_on_unload(entry.add_update_listener(async_options_update_listener))
-
     return True
-
-async def async_options_update_listener(hass: HomeAssistant, entry: ConfigEntry) -> None:
-    """Handle an options update."""
-    await hass.config_entries.async_reload(entry.entry_id)
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
