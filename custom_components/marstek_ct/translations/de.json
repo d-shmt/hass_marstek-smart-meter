@@ -23,6 +23,16 @@
       "already_configured": "Dieses Gerät ist bereits konfiguriert."
     }
   },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Marstek CT Meter Einstellungen",
+        "data": {
+          "scan_interval": "Abfrageintervall (in Sekunden)"
+        }
+      }
+    }
+  },
   "entity": {
     "sensor": {
       "total_power": { "name": "Gesamtleistung" },
@@ -61,7 +71,7 @@
     "device_type_prefix": {
       "options": {
         "HMG": "HMG (Marstek Venus)",
-        "HMB": "HMB (B2500 storage v1)",
+        "HMB": "HMB (B200 storage v1)",
         "HMA": "HMA (B2500 storage v2)",
         "HMK": "HMK (Greensolar storage v3)"
       }
