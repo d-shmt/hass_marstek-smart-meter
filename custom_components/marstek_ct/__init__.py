@@ -9,17 +9,13 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from .api import MarstekCtApi
 from .const import DOMAIN
-from .options_flow import async_get_options_flow # Wichtig: Import des Options-Flows
 
 _LOGGER = logging.getLogger(__name__)
-PLATFORMS: list[Platform] = [Platform.SENSOR]
+PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.BINARY_SENSOR]
 DEFAULT_SCAN_INTERVAL = 30
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Marstek CT Meter from a config entry."""
-    
-    # Registriere den Options-Flow
-    entry.async_get_options_flow = async_get_options_flow
     
     # Lese das Update-Intervall aus den Optionen, mit Fallback auf den Standardwert
     scan_interval = entry.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
@@ -47,7 +43,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         _LOGGER,
         name="marstek_ct_sensor",
         update_method=async_update_data,
-        update_interval=timedelta(seconds=scan_interval), # Verwende den konfigurierbaren Wert
+        update_interval=timedelta(seconds=scan_interval),
     )
 
     await coordinator.async_config_entry_first_refresh()
@@ -55,11 +51,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     
     # Füge einen Listener hinzu, der auf Options-Änderungen reagiert
-    entry.async_on_unload(entry.add_update_listener(async_reload_entry))
+    entry.async_on_unload(entry.add_update_listener(async_options_update_listener))
 
     return True
 
-async def async_reload_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
+async def async_options_update_listener(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Handle an options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
