@@ -5,7 +5,7 @@
   "documentation": "https://github.com/d-shmt/hass_marstek-smart-meter",
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/d-shmt/hass_marstek-smart-meter/issues",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "codeowners": ["@d-shmt"],
   "requirements": []
 }
