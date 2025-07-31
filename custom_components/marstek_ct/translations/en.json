@@ -23,16 +23,6 @@
       "already_configured": "This device is already configured."
     }
   },
-  "options": {
-    "step": {
-      "init": {
-        "title": "Marstek CT Meter Settings",
-        "data": {
-          "scan_interval": "Update Interval (in seconds)"
-        }
-      }
-    }
-  },
   "entity": {
     "sensor": {
       "total_power": { "name": "Total Power" },
