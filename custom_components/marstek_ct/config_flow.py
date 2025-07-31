@@ -15,9 +15,9 @@ DEFAULT_SCAN_INTERVAL = 30
 class MarstekCtConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Marstek CT Meter."""
     VERSION = 1
-
+    
+    # ... (Die async_step_user Funktion bleibt unverändert) ...
     async def async_step_user(self, user_input=None):
-        """Handle the initial setup step."""
         errors = {}
         if user_input is not None:
             final_data = user_input.copy()
@@ -28,7 +28,6 @@ class MarstekCtConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             unique_id = f'{format_mac(final_data["ct_mac"])}_{format_mac(final_data["battery_mac"])}'
             await self.async_set_unique_id(unique_id)
             self._abort_if_unique_id_configured()
-
             try:
                 info = await validate_input(self.hass, final_data)
                 return self.async_create_entry(title=info["title"], data=final_data)
@@ -48,16 +47,12 @@ class MarstekCtConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             vol.Required("device_type_number", default="50"): str,
             vol.Required("ct_type", default="HME-4"): vol.In(["HME-4", "HME-3"]),
         })
-        
-        return self.async_show_form(
-            step_id="user", data_schema=data_schema, errors=errors
-        )
+        return self.async_show_form(step_id="user", data_schema=data_schema, errors=errors)
 
     @staticmethod
     @callback
     def async_get_options_flow(config_entry: config_entries.ConfigEntry):
         """Get the options flow for this handler."""
-        # HIER IST DIE KORRIGIERTE ZEILE:
         return MarstekCtOptionsFlow(config_entry)
 
 
@@ -70,6 +65,9 @@ class MarstekCtOptionsFlow(config_entries.OptionsFlow):
 
     async def async_step_init(self, user_input: dict | None = None) -> dict:
         """Manage the options."""
+        # DIESE LOG-MELDUNG IST DER TEST:
+        _LOGGER.error("!!! MARSTEK CT OPTIONS FLOW WURDE AUFGERUFEN !!!")
+
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
 
@@ -81,13 +79,10 @@ class MarstekCtOptionsFlow(config_entries.OptionsFlow):
                 ),
             ): vol.All(vol.Coerce(int), vol.Range(min=5)),
         })
+        return self.async_show_form(step_id="init", data_schema=options_schema)
 
-        return self.async_show_form(
-            step_id="init", data_schema=options_schema
-        )
-
+# ... (Die validate_input Funktion bleibt unverändert) ...
 async def validate_input(hass, data: dict) -> dict[str, any]:
-    """Validate user input by connecting to the device."""
     api = MarstekCtApi(
         host=data["host"],
         device_type=data["device_type"],
