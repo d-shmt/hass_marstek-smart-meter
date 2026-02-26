@@ -26,6 +26,7 @@
   "entity": {
     "sensor": {
       "total_power": { "name": "Total Power" },
+      "battery_power": { "name": "Battery Power (signed)" },
       "a_phase_power": { "name": "Phase A Power" },
       "b_phase_power": { "name": "Phase B Power" },
       "c_phase_power": { "name": "Phase C Power" },
