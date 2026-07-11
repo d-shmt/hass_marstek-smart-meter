@@ -15,7 +15,7 @@ class MarstekCtApi:
         self._battery_mac = battery_mac
         self._ct_mac = ct_mac
         self._ct_type = ct_type
-        self._timeout = 5.0
+        self._timeout = 1.0
         self._payload = self._build_payload()
 
     def _build_payload(self):
@@ -63,21 +63,30 @@ class MarstekCtApi:
 
         return parsed
 
-    def fetch_data(self):
-        """Fetch data from the meter. This is a blocking call."""
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        sock.settimeout(self._timeout)
-        try:
-            sock.sendto(self._payload, (self._host, self._port))
-            response, _ = sock.recvfrom(1024)
-            return self._decode_response(response)
-        except socket.timeout:
-            return {"error": "Timeout - No response from meter"}
-        except Exception as e:
-            _LOGGER.warning("An unexpected error occurred: %s", str(e))
-            return {"error": f"An unexpected error occurred: {str(e)}"}
-        finally:
-            sock.close()
+    def fetch_data(self, retries=10):
+        """Fetch data from the meter. This is a blocking call.
+
+        UDP has no delivery guarantee, so a single lost packet (common over
+        WiFi) would otherwise mark every sensor unavailable. Retry a few
+        times before giving up.
+        """
+        last_error = None
+        for attempt in range(retries):
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            sock.settimeout(self._timeout)
+            try:
+                sock.sendto(self._payload, (self._host, self._port))
+                response, _ = sock.recvfrom(1024)
+                return self._decode_response(response)
+            except socket.timeout:
+                last_error = "Timeout - No response from meter"
+                _LOGGER.debug("Attempt %d/%d timed out", attempt + 1, retries)
+            except Exception as e:
+                last_error = f"An unexpected error occurred: {str(e)}"
+                _LOGGER.warning("An unexpected error occurred: %s", str(e))
+            finally:
+                sock.close()
+        return {"error": last_error}
 
     def test_connection(self):
         """A simple blocking call to test connectivity."""
