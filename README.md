@@ -1,3 +1,5 @@
+# ALTERNATIVE REPO: https://github.com/cbrandlehner/marstek-power-meter/tree/main
+
 # Marstek CT Meter - Home Assistant Integration
 
 <p align="center">
